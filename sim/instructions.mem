@@ -1,0 +1,7 @@
+2008000a  // addi $t0, $zero, 10  (Set $t0 = 10)
+20090005  // addi $t1, $zero, 5   (Set $t1 = 5)
+01095020  // add  $t2, $t0, $t1   (Set $t2 = 10 + 5 = 15)
+ac0a0004  // sw   $t2, 4($zero)   (Write 15 to DataMem[1])
+8c0b0004  // lw   $t3, 4($zero)   (Read DataMem[1] into $t3)
+114b0001  // beq  $t2, $t3, 1     (If 15 == 15, skip next line)
+214a0001  // addi $t2, $t2, 1     (Should be SKIPPED if BEQ works)
