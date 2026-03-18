@@ -1,15 +1,17 @@
-# 32-bit MIPS Single-Cycle Processor (Verilog)
+# 32-bit MIPS Single-Cycle Processor
 
 This repository contains a structural Verilog implementation of a 32-bit MIPS Single-Cycle Processor. The design was developed as part of a Computer Architecture project at BITS Pilani to demonstrate the hardware translation of MIPS assembly into functional datapath operations.
 
-## Architecture Overview
-The processor implements a Harvard Architecture with separate instruction and data memory spaces. It is designed to execute one instruction per clock cycle.
+## Datapath Architecture
+The following diagram illustrates the structural interconnection of the Fetch, Decode, Execute, and Memory stages implemented in this project:
 
-### Hardware Components:
-- Control Unit: Combinational logic that decodes the 6-bit OpCode to generate 9 distinct control signals.
-- ALU and ALU Control: Handles arithmetic, logic, and comparison operations based on the Funct field.
-- Register File: A 32x32-bit bank with a hardwired $zero register (Register 0) that remains 0 regardless of write operations.
-- Data Memory: A 1024-word RAM module utilizing word-aligned addressing.
+![MIPS Single-Cycle Datapath](docs/mips-datapath.png)
+
+### Hardware Components
+- **Control Unit:** Combinational logic that decodes the 6-bit OpCode to generate 9 distinct control signals.
+- **ALU and ALU Control:** Handles arithmetic, logic, and comparison operations based on the Funct field.
+- **Register File:** A 32x32-bit bank with a hardwired $zero register (Register 0) that remains 0 regardless of write operations.
+- **Data Memory:** A 1024-word RAM module utilizing word-aligned addressing.
 
 ---
 
@@ -31,16 +33,16 @@ The processor supports the following MIPS instructions. Any OpCode not listed be
 ---
 
 ## Simulation and Testing (Xilinx Vivado)
-1. Add all .v files from the hdl/ directory to the Vivado project sources.
-2. Add tb_Top.v as the simulation source.
-3. Ensure the instr.mem file is located in the active simulation folder (typically .../sim_1/behav/xsim/).
-4. The Instruction_Memory module uses the $readmemh system task to initialize the program at the start of simulation.
-5. Run Behavioral Simulation and monitor PC_Out and ALU_Result to verify execution flow.
+1. Add all .v files from the `hdl/` directory to the Vivado project sources.
+2. Add `Top_tb.v` as the simulation source.
+3. Ensure the `instr.mem` file is located in the active simulation folder (typically `.../sim_1/behav/xsim/`).
+4. The `Instruction_Memory` module uses the `$readmemh` system task to initialize the program at the start of simulation.
+5. Run Behavioral Simulation and monitor `PC_Out` and `ALU_Result` to verify execution flow.
 
 ## Implementation Details
-- Memory Alignment: While the Program Counter (PC) increments by 4, the internal memory arrays are word-indexed. This is handled via internal bit-shifting [31:2] on the address lines.
-- Reset Logic: The system utilizes a ResetBar (active low) to initialize the Program Counter and Register File values to zero.
+- **Memory Alignment:** While the Program Counter (PC) increments by 4, the internal memory arrays are word-indexed. This is handled via internal bit-shifting `[31:2]` on the address lines.
+- **Reset Logic:** The system utilizes a `ResetBar` (active low) to initialize the Program Counter and Register File values to zero.
 
 ---
-**Author:** Suprasad Mishra
+**Author:** Suprasad Mishra  
 **Tools:** Verilog HDL, Xilinx Vivado
